@@ -1,0 +1,5 @@
+# 插件元信息
+comment = 'PostgreSQL Depgraph Pruner extension'
+default_version = '1.0'
+module_pathname = '$libdir/postgres-depgraph'
+relocatable = true
