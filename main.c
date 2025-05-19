@@ -5,8 +5,8 @@ int main(){
 // 准备示例输入
     
     // 收集注意力层信息
-    std::unique_ptr<ONNX_MODEL> model;
-    std::unordered_map<ONNX_MODULE*, int> num_heads;
+    std::unique_ptr<Mock::ONNX_MODEL> model;
+    std::unordered_map<Mock::ONNX_MODULE*, int> num_heads;
     std::shared_ptr<Importance> imp = std::make_shared<MagnitudeImportance>(2, "mean");
     for (auto& child : model->named_children()) {
         // if (auto attention = dynamic_cast<*>(child.value.get())) {
@@ -17,7 +17,7 @@ int main(){
     }
     
     // 创建剪枝器
-    std::vector<ONNX_MODULE*> ignored_layers = {
+    std::vector<Mock::ONNX_MODULE*> ignored_layers = {
         model->enc_embedding.get(),
         model->dec_embedding.get()
     };

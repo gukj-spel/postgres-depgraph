@@ -9,7 +9,7 @@ std::string Dependency::str() const {
 	return "Trigger on " + source->name() + " => Handler on " + target->name();
 }
 
-bool Dependency::is_triggered_by(const std::function<void(ONNX_MODULE*, const std::vector<int>&)>& pruning_fn) const {
+bool Dependency::is_triggered_by(const std::function<void(Mock::Mock::ONNX_MODULE*, const std::vector<int>&)>& pruning_fn) const {
 	return pruning_fn.target_type() == trigger.target_type();
 }
 

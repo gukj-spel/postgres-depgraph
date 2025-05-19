@@ -40,7 +40,7 @@ namespace Mock{
 /**
  * Mock function
  */
-PruningFunc get_pruner_of_module(const ONNX_MODULE& module);
+std::shared_ptr<PruningFunc> get_pruner_of_module(const ONNX_MODULE& module);
 
 
 };//namespace Mock

@@ -13,6 +13,7 @@ class Node;
 class Dependency;
 class Group;
 class DependencyGraph;
+class PruningFunc;
 
 
 
@@ -20,8 +21,8 @@ class DependencyGraph;
 // Dependency 类
 class Dependency {
 public:
-    Dependency(const std::function<void(ONNX_MODULE*, const std::vector<int>&)>& trigger,
-               const std::function<void(ONNX_MODULE*, const std::vector<int>&)>& handler,
+    Dependency(const std::function<void(Mock::ONNX_MODULE*, const std::vector<int>&)>& trigger,
+               const std::function<void(Mock::ONNX_MODULE*, const std::vector<int>&)>& handler,
                const std::shared_ptr<Node>& source,
                const std::shared_ptr<Node>& target)
         : trigger(trigger), handler(handler), source(source), target(target) {}
@@ -30,12 +31,12 @@ public:
 
     std::string str() const;
 
-    bool is_triggered_by(const std::function<void(ONNX_MODULE*, const std::vector<int>&)>& pruning_fn) const;
+    bool is_triggered_by(const std::function<void(Mock::ONNX_MODULE*, const std::vector<int>&)>& pruning_fn) const;
 
     bool operator==(const Dependency& other) const;
 
-    std::function<void(ONNX_MODULE*, const std::vector<int>&)> trigger;
-    std::function<void(ONNX_MODULE*, const std::vector<int>&)> handler;
+    std::function<void(Mock::ONNX_MODULE*, const std::vector<int>&)> trigger;
+    std::function<void(Mock::ONNX_MODULE*, const std::vector<int>&)> handler;
     std::shared_ptr<Node> source;
     std::shared_ptr<Node> target;
 };
@@ -43,7 +44,7 @@ public:
 // Node 类
 class Node {
 public:
-    Node(std::shared_ptr<ONNX_MODULE> module, std::shared_ptr<void> grad_fn, const std::string& name = "")
+    Node(std::shared_ptr<Mock::ONNX_MODULE> module, std::shared_ptr<void> grad_fn, const std::string& name = "")
         : module(module), grad_fn(grad_fn), _name(name) {}
 
     std::string name() const;
@@ -58,7 +59,7 @@ public:
 
     std::vector<std::shared_ptr<Node>> inputs;
     std::vector<std::shared_ptr<Node>> outputs;
-    std::shared_ptr<ONNX_MODULE> module;
+    std::shared_ptr<Mock::ONNX_MODULE> module;
     std::shared_ptr<void> grad_fn;
     std::string _name;
     std::vector<std::shared_ptr<Dependency>> dependencies;

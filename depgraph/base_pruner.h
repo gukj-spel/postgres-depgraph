@@ -30,12 +30,12 @@ private:
 class BasePruner {
 public:
     BasePruner(
-              ONNX_MODEL& model, 
+              Mock::ONNX_MODEL& model, 
               std::shared_ptr<Importance> importance = std::shared_ptr<MagnitudeImportance>(),
               float pruning_ratio = 0.25,
-              std::unordered_map<ONNX_MODULE*, int> num_heads = {},
-              const std::vector<ONNX_MODULE*>& ignored_layers = {},
-              std::function<ONNX_OP(const ONNX_OP&)> output_transform = nullptr)
+              std::unordered_map<Mock::ONNX_MODULE*, int> num_heads = {},
+              const std::vector<Mock::ONNX_MODULE*>& ignored_layers = {},
+              std::function<Mock::ONNX_OP(const Mock::ONNX_OP&)> output_transform = nullptr)
         : model(model), 
           importance(importance),
           pruning_ratio(pruning_ratio),
@@ -102,7 +102,7 @@ public:
     }
     
     // 创建通道剪枝组
-    PruningGroup create_channel_pruning_group(ONNX_MODULE* module) {
+    PruningGroup create_channel_pruning_group(Mock::ONNX_MODULE* module) {
         PruningGroup group;
         /**
          * @todo: 这里的剪枝逻辑需要根据实际情况实现
@@ -111,7 +111,7 @@ public:
     }
     
     // 创建注意力头剪枝组
-    PruningGroup create_head_pruning_group(ONNX_MODULE* module, int n_heads) {
+    PruningGroup create_head_pruning_group(Mock::ONNX_MODULE* module, int n_heads) {
         PruningGroup group;
         /**
          * @todo: 这里的剪枝逻辑需要根据实际情况实现
@@ -121,7 +121,7 @@ public:
     
     
     // 检查模块是否被忽略
-    bool is_ignored(ONNX_MODULE* module) {
+    bool is_ignored(Mock::ONNX_MODULE* module) {
         for (auto ignored : ignored_layers) {
             if (module == ignored) {
                 return true;
@@ -135,10 +135,10 @@ public:
 private:
     DependencyGraph DG;
 private:
-    ONNX_MODEL& model;
+    Mock::ONNX_MODEL& model;
     std::shared_ptr<Importance> importance;
-    std::function<ONNX_OP(const ONNX_OP&)> output_transform;
-    std::vector<ONNX_MODULE*> ignored_layers;
+    std::function<Mock::ONNX_OP(const Mock::ONNX_OP&)> output_transform;
+    std::vector<Mock::ONNX_MODULE*> ignored_layers;
     int iterative_steps;
     float pruning_ratio;
     bool prune_head_dims;
