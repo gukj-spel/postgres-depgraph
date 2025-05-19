@@ -44,8 +44,8 @@ public:
 // Node 类
 class Node {
 public:
-    Node(std::shared_ptr<Mock::ONNX_MODULE> module, std::shared_ptr<void> grad_fn, const std::string& name = "")
-        : module(module), grad_fn(grad_fn), _name(name) {}
+    Node(std::shared_ptr<Mock::ONNX_MODULE> module, const std::string& name = "")
+        : module(module), _name(name) {}
 
     std::string name() const;
 
@@ -60,7 +60,6 @@ public:
     std::vector<std::shared_ptr<Node>> inputs;
     std::vector<std::shared_ptr<Node>> outputs;
     std::shared_ptr<Mock::ONNX_MODULE> module;
-    std::shared_ptr<void> grad_fn;
     std::string _name;
     std::vector<std::shared_ptr<Dependency>> dependencies;
     bool enable_index_mapping = true;

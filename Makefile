@@ -3,7 +3,7 @@ OBJS = postgres-depgraph.o
 
 CC = gcc
 CXX = g++
-CXXFLAGS = -std=c++17 -O0 -g -DDEBUG
+CXXFLAGS = -std=c++20 -O0 -g -DDEBUG
 
 ONNXRUNTIME_DIR = /usr/local/orttraining
 ONNXRUNTIME_SRC = /home/baum/postgres-test/onnxruntime-main

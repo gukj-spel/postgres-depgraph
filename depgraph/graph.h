@@ -77,9 +77,9 @@ private:
     std::unordered_map<Mock::ONNX_MODULE*, std::shared_ptr<Node>> _trace(const Mock::ONNX_MODEL& model){
         std::unordered_map<Mock::ONNX_MODULE*, std::shared_ptr<Node>> module2node;
         for (auto& child : model.named_children()) {
-            auto module = child.second.get();
+            auto module = child.second;
             auto name = child.first;
-            module2node[module] = std::make_unique<Node>(module, nullptr, name);
+            module2node[module.get()] = std::make_shared<Node>(module, name);
             if (module->named_children().size() > 0) {
                 auto sub_module2node = _trace(*module);
                 module2node.insert(sub_module2node.begin(), sub_module2node.end());
@@ -91,18 +91,18 @@ private:
     /**
      * @brief 记录, 遍历 ONNX_MODEL 遍历剪枝，设置 _module2name 的值
      */
-    std::unordered_map<Mock::ONNX_MODULE*, std::string> _trace(const Mock::ONNX_MODULE& module){
-        std::unordered_map<Mock::ONNX_MODULE*, std::string> module2name;
+    std::unordered_map<Mock::ONNX_MODULE*, std::shared_ptr<Node>> _trace(const Mock::ONNX_MODULE& module){
+        std::unordered_map<Mock::ONNX_MODULE*, std::shared_ptr<Node>> module2node;
         for (auto& child : module.named_children()) {
             auto module = child.second.get();
             auto name = child.first;
-            module2name[module] = name;
+            module2node[module] = std::make_shared<Node>(module, name);
             if (module->named_children().size() > 0) {
                 auto sub_module2name = _trace(*module);
-                module2name.insert(sub_module2name.begin(), sub_module2name.end());
+                module2node.insert(sub_module2name.begin(), sub_module2name.end());
             }
         }
-        return module2name;
+        return module2node;
     }
 
     
