@@ -5,18 +5,18 @@ CC = gcc
 CXX = g++
 CXXFLAGS = -std=c++17 -O0 -g -DDEBUG
 
+ONNXRUNTIME_DIR = /usr/local/orttraining
 ONNXRUNTIME_SRC = /home/baum/postgres-test/onnxruntime-main
-ONNXRUNTIME_BUILD = $(ONNXRUNTIME_SRC)/build/Linux/RelWithDebInfo
+ONNXRUNTIME_BUILD = $(ONNXRUNTIME_DIR)/build/Linux/RelWithDebInfo
 
-INCLUDES = -I$(ONNXRUNTIME_SRC)/include/onnxruntime/core/session \
-           -I$(ONNXRUNTIME_BUILD)/include \
+INCLUDES = -I$(ONNXRUNTIME_DIR)/include \
            -Idepgraph -Ionnx -Idb
 
 # 头文件路径
 PG_CPPFLAGS = -I$(libpq_srcdir)
 
 # 共享库链接选项
-SHLIB_LINK = -L$(libpq_builddir) -L$(ONNXRUNTIME_BUILD) -lpq -lonnxruntime
+SHLIB_LINK = -L$(libpq_builddir) -L$(ONNXRUNTIME_DIR)/lib -lpq -lonnxruntime
 
 
 
