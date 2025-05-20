@@ -94,9 +94,9 @@ private:
     std::unordered_map<Mock::ONNX_MODULE*, std::shared_ptr<Node>> _trace(const Mock::ONNX_MODULE& module){
         std::unordered_map<Mock::ONNX_MODULE*, std::shared_ptr<Node>> module2node;
         for (auto& child : module.named_children()) {
-            auto module = child.second.get();
+            auto module = child.second;
             auto name = child.first;
-            module2node[module] = std::make_shared<Node>(module, name);
+            module2node[module.get()] = std::make_shared<Node>(module, name);
             if (module->named_children().size() > 0) {
                 auto sub_module2name = _trace(*module);
                 module2node.insert(sub_module2name.begin(), sub_module2name.end());

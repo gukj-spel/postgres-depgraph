@@ -2,6 +2,9 @@
 #pragma once
 // 模拟 ONNX Module 和 Parameter
 #include <unordered_map>
+#include <memory>
+#include <string>
+#include <vector>
 class PruningFunc;
 namespace Mock{
 /**
@@ -35,7 +38,28 @@ namespace Mock{
     };
 
     //ONNX 算子
-    class ONNX_OP{};
+    class ONNX_OP{
+        public:
+        // 默认构造函数
+        ONNX_OP() = default;
+        // 带参数的构造函数
+        ONNX_OP(const std::string& name, const std::vector<float>& weights)
+            : name_(name), weights_(weights) {}
+        
+        // 获取参数数据
+        const std::vector<float>& get_weights() const {
+            return weights_;
+        }
+        
+        // 获取OP名称
+        const std::string& get_name() const {
+            return name_;
+        }
+        
+    private:
+        std::string name_;         // OP名称
+        std::vector<float> weights_; // 参数权重
+    };
 
 /**
  * Mock function
