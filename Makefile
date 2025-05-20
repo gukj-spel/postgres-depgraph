@@ -1,5 +1,18 @@
 MODULE_big = postgres-depgraph 
-OBJS = postgres-depgraph.o
+
+#目标文件
+# 收集所有需要编译的源文件
+DEPGRAPH_SRCS := $(wildcard depgraph/*.cc)
+ONNX_SRCS := $(wildcard onnx/*.cc)
+DB_SRCS := $(wildcard db/*.cc)
+
+# 生成对应的目标文件列表
+DEPGRAPH_OBJS := $(patsubst depgraph/%.cc, depgraph/%.o, $(DEPGRAPH_SRCS))
+ONNX_OBJS := $(patsubst onnx/%.cc, onnx/%.o, $(ONNX_SRCS))
+DB_OBJS := $(patsubst db/%.cc, db/%.o, $(DB_SRCS))
+
+# 最终的目标文件列表
+OBJS = postgres-depgraph.o $(DEPGRAPH_OBJS) $(ONNX_OBJS) $(DB_OBJS)
 
 CC = gcc
 CXX = g++
@@ -28,6 +41,7 @@ DATA = postgres-depgraph--1.0.sql
 PG_CONFIG = pg_config
 PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
+
 
 
 # 自定义规则：编译根目录下的mian.c
